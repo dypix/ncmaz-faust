@@ -157,7 +157,38 @@ export const QUERY_GET_COMMENTS_BY_POST_ID = gql(/* GraphQL */ `
 	}
 `)
 
+
 export const QUERY_MUTATION_CREATE_COMMENT = gql(/* GraphQL */ `
+    mutation MutationCreateComment(
+        $author: String = null
+        $parent: ID = null
+        $status: CommentStatusEnum = APPROVE
+        $content: String = null
+        $commentOn: Int = null
+        $authorEmail: String = null
+        $authorUrl: String = null
+    ) {
+        createComment(
+            input: {
+                author: $author
+                status: $status
+                parent: $parent
+                content: $content
+                commentOn: $commentOn
+                authorEmail: $authorEmail
+                authorUrl: $authorUrl
+            }
+        ) {
+            clientMutationId
+            success
+            comment {
+                ...NcmazFcCommentFullFields
+            }
+        }
+    }
+`)
+/*
+export const QUERY_MUTATION_CREATE_COMMENT = gql(/* GraphQL */ /*`
 	mutation MutationCreateComment(
 		$author: String = null
 		$parent: ID = null
@@ -175,6 +206,7 @@ export const QUERY_MUTATION_CREATE_COMMENT = gql(/* GraphQL */ `
 				parent: $parent
 				content: $content
 				commentOn: $commentOn
+				approved: $approved
 				authorEmail: $authorEmail
 				authorUrl: $authorUrl
 			}
@@ -187,7 +219,7 @@ export const QUERY_MUTATION_CREATE_COMMENT = gql(/* GraphQL */ `
 		}
 	}
 `)
-
+*/
 export const QUERY_MUTATION_DELETE_COMMENT_BY_ID = gql(/* GraphQL */ `
 	mutation MutationDeleteCommentById($id: ID = "") {
 		deleteComment(input: { id: $id }) {
